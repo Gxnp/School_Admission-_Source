@@ -25,8 +25,8 @@ app
         nationality: z.string(),
         phone: z.string(),
         address: z.string(),
-        previousSchool: z.string(), // โรงเรียนที่จบการศึกษา
-        gpa: z.string(), // เกรดเฉลี่ย
+        previousSchool: z.string(),
+        gpa: z.string(),
         gradeApplyingFor: z.string(),
         profilePicture: z.string(),
       })
@@ -43,13 +43,11 @@ app
         nationality,
         phone,
         address,
-        previousSchool, // โรงเรียนที่จบการศึกษา
-        gpa, // เกรดเฉลี่ย
+        previousSchool,
+        gpa,
         gradeApplyingFor,
         profilePicture,
       } = c.req.valid("form");
-
-      console.log("Creating application for:", name);
 
       try {
         const newApplication = await prisma.application.create({
@@ -64,11 +62,11 @@ app
             nationality,
             phone,
             address,
-            previousSchool, // โรงเรียนที่จบการศึกษา
-            gpa, // เกรดเฉลี่ย
+            previousSchool,
+            gpa,
             gradeApplyingFor,
             profilePicture,
-            status: "Passed", // กำหนดค่า status ที่นี่
+            status: "Passed",
           },
         });
 
@@ -106,5 +104,59 @@ app
       }
     }
   );
+app.put(
+  "/application/:nationalId", // เปลี่ยนจาก "/application" เป็น "/application/:nationalId"
+  zValidator("param", z.object({ nationalId: z.string() })),
+  async (c) => {
+    const { nationalId } = c.req.valid("param");
+    const updateData = await c.req.json();
+
+    const schema = z.object({
+      title: z.string().optional(),
+      name: z.string().optional(),
+      dob: z.string().optional(),
+      age: z.string().optional(),
+      religion: z.string().optional(),
+      ethnicity: z.string().optional(),
+      nationality: z.string().optional(),
+      phone: z.string().optional(),
+      address: z.string().optional(),
+      previousSchool: z.string().optional(),
+      gpa: z.string().optional(),
+      gradeApplyingFor: z.string().optional(),
+      profilePicture: z.string().optional(),
+    });
+
+    const validationResult = schema.safeParse(updateData);
+    if (!validationResult.success) {
+      return c.json(
+        { error: "ข้อมูลไม่ถูกต้อง", details: validationResult.error },
+        400
+      );
+    }
+
+    try {
+      const existingApplication = await prisma.application.findUnique({
+        where: { nationalId },
+      });
+
+      if (!existingApplication) {
+        return c.json({ error: "ไม่พบข้อมูลผู้สมัครนี้!" }, 404);
+      }
+
+      const updatedApplication = await prisma.application.update({
+        where: { nationalId },
+        data: {
+          ...existingApplication, // ข้อมูลเดิม
+          ...validationResult.data, // ข้อมูลใหม่ที่อัปเดต
+        },
+      });
+
+      return c.json(updatedApplication);
+    } catch (error) {
+      return c.json({ error: "เกิดข้อผิดพลาดในการอัปเดตข้อมูล" }, 500);
+    }
+  }
+);
 
 export default app;

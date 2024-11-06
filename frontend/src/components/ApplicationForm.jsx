@@ -10,6 +10,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 
+
+
 const ApplicationForm = () => {
   const { schoolType } = useParams();
   const navigate = useNavigate();
@@ -56,13 +58,15 @@ const ApplicationForm = () => {
             "ethnicity",
             "nationality",
             "phone",
-            "previousSchool",
-            "gpa",
+            
           ]
-        : ["address", "previousSchool", "gradeApplyingFor"];
+        : ["address", "previousSchool", "gpa", "gradeApplyingFor"];
 
     return requiredFields.every(
-      (field) => formData[field]?.toString().trim() !== ""
+      (field) =>
+        formData[field] !== undefined &&
+        formData[field] !== null &&
+        formData[field].toString().trim() !== ""
     );
   };
 
@@ -306,8 +310,8 @@ const ApplicationForm = () => {
                         </div>
                       </div>
                     </div>
-                    <div>
-                      <Label htmlFor="previousSchool">แผนการเรียน</Label>
+                    {/* <div>
+                      <Label htmlFor="previousSchool">ความสามารถพิเศษ / ความสนใจ</Label>
                       <Input
                         id="previousSchool"
                         name="previousSchool"
@@ -316,10 +320,10 @@ const ApplicationForm = () => {
                         required
                         className="mt-1"
                       />
-                    </div>
+                    </div> */}
                     <div>
                       <Label htmlFor="gradeApplyingFor">
-                        ความสามารถพิเศษ / ความสนใจ
+                        แผนการเรียน
                       </Label>
                       <Input
                         id="gradeApplyingFor"
