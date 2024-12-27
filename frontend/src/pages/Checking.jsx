@@ -13,7 +13,7 @@ const Checking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setStatus(null); // Reset status to hide previous results if any
+    setStatus(null); // Reset status
     setIsEditing(false);
 
     try {
@@ -79,26 +79,47 @@ const Checking = () => {
         </button>
       </form>
 
-      {/* Display only status if available */}
-      {status && !error && (
+      {/* status เป็น True */}
+      {status && (
         <div className="flex flex-col items-center p-6 bg-white shadow-md rounded-lg mt-4">
-          <p className="text-pink-500 font-semibold text-xl mb-4">
-            <span>{name}</span> <br/>
-            {status &&!error&&(
-              <span>เลขบัตรประชาชน: {nationalId}</span>
-            )}
-          
-          {gradeApplyingFor}
-            สถานะ:{" "}
-            <span
-              className={`font-medium ${
-                status === "Passed" ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              
-              {status}
-            </span>
-          </p>
+          {/* มีชื่อ แผน แสดงตอนเจอ data */}
+          {name && gradeApplyingFor ? (
+            <div className=" border-black border-2 rounded px-8 py-5 shadow-xl">
+              <p className="text-black font-medium text-xl mb-4">
+                <span>
+                  ชื่อ - นามสกุล : <span className="text-pink-500 font-semibold">{name}</span>
+                </span>
+                <br />
+                <span>
+                  แผนการเรียน : <span className="text-pink-500 font-semibold">{gradeApplyingFor}</span>
+                </span>
+                <br />
+                <span>
+                สถานะ :{" "}
+                <span
+                  className={`font-semibold ${
+                    status === "Passed" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {status}
+                </span>
+              </span>
+              </p>
+            </div>
+          ) : (
+            <p className="text-black font-medium text-xl mb-4">
+              <span>
+                สถานะ :{" "}
+                <span
+                  className={`font-semibold ${
+                    status === "Passed" ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {status}
+                </span>
+              </span>
+            </p>
+          )}
           {status === "Passed" && (
             <button
               onClick={handleEditClick}
@@ -110,7 +131,7 @@ const Checking = () => {
         </div>
       )}
 
-      {/* Display error message if no data is found */}
+      {/* Display error message if there's an error */}
       {error && (
         <p className="text-center text-red-500 font-semibold mt-4">{error}</p>
       )}

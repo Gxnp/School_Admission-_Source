@@ -14,7 +14,7 @@ app
     "/application",
     zValidator(
       "form",
-      z.object({
+      z.object({ //เช็คว่าเป็นstrรึป่าว
         title: z.string(),
         name: z.string(),
         nationalId: z.string(),
@@ -31,7 +31,7 @@ app
         profilePicture: z.string(),
       })
     ),
-    async (c) => {
+    async (c) => { //ดึงข้อมูลที่ตรวจสอบแล้ว
       const {
         title,
         name,
@@ -49,7 +49,7 @@ app
         profilePicture,
       } = c.req.valid("form");
 
-      try {
+      try { //สร้างข้อมูลใหม่
         const newApplication = await prisma.application.create({
           data: {
             title,

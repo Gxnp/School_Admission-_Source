@@ -129,8 +129,7 @@ const ApplicationForm = () => {
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">
-            Apply for{" "}
-            {schoolType === "middle-school" ? "Middle School" : "High School"}
+            ระบบรับสมัครนักเรียน
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -139,7 +138,7 @@ const ApplicationForm = () => {
             variant="outline"
             className="mb-6 w-full"
           >
-            <ChevronLeft className="mr-2 h-4 w-4" /> Back to Application Types
+            <ChevronLeft className="mr-2 h-4 w-4" /> กลับไปเลือกประเภทการสมัคร
           </Button>
           <form onSubmit={handleSubmit}>
             <AnimatePresence mode="wait">
@@ -270,7 +269,7 @@ const ApplicationForm = () => {
                 {step === 2 && (
                   <>
                     <div>
-                      <Label htmlFor="address">Address</Label>
+                      <Label htmlFor="address">ที่อยู่</Label>
                       <Input
                         id="address"
                         name="address"
@@ -310,17 +309,7 @@ const ApplicationForm = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div>
-                      <Label htmlFor="previousSchool">ความสามารถพิเศษ / ความสนใจ</Label>
-                      <Input
-                        id="previousSchool"
-                        name="previousSchool"
-                        value={formData.previousSchool}
-                        onChange={handleInputChange}
-                        required
-                        className="mt-1"
-                      />
-                    </div> */}
+                    
                     <div>
                       <Label htmlFor="gradeApplyingFor">
                         แผนการเรียน

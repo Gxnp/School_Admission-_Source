@@ -1,5 +1,5 @@
 import Foot from "@/components/footer";
-import React, { useState } from "react";
+import React from "react";
 
 const Cost = () => {
   const tuitionData = [
@@ -66,7 +66,8 @@ const Cost = () => {
           </h1>
           <div className="overflow-hidden rounded-lg shadow-lg mb-8">
             <table className="min-w-full bg-white">
-              <thead>
+              <thead> 
+                {/* table head */}
                 <tr className="bg-pink-500 text-white text-lg">
                   <th className="py-3 px-4">วิชา</th>
                   <th className="py-3 px-4">ภาคเรียนที่ 1</th>
@@ -74,6 +75,8 @@ const Cost = () => {
                 </tr>
               </thead>
               <tbody>
+                                {/* table body */}
+
                 {tuitionData.map((item, index) => (
                   <tr
                     key={index}
